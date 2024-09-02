@@ -1,0 +1,23 @@
+# recommendation.py
+import pandas as pd
+from sklearn.neighbors import NearestNeighbors
+
+# Dummy data
+properties = pd.DataFrame({
+    'id': [1, 2, 3, 4],
+    'price': [100000, 200000, 150000, 300000],
+    'size': [50, 100, 75, 150]
+})
+
+# Dummy user preferences
+user_preferences = {'price': 160000, 'size': 80}
+
+# Fit model
+model = NearestNeighbors(n_neighbors=2)
+model.fit(properties[['price', 'size']])
+
+# Find nearest properties
+distances, indices = model.kneighbors([[user_preferences['price'], user_preferences['size']]])
+recommended_properties = properties.iloc[indices[0]]
+
+print(recommended_properties)
